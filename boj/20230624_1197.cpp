@@ -5,7 +5,6 @@
 
 using namespace std;
 
-//그래프를 표현하기 위한 class 정의, 필요 연산자도 오버로딩
 class Edge {
 
 public:
@@ -23,7 +22,6 @@ public:
 
 };
 
-//연결 여부를 알기위한 UnionFind class find, merge 구현
 class UnionFind {
 
 	vector<int> parent;
@@ -46,7 +44,6 @@ public:
 
 };
 
-//최대 신장 트리를 구하여 원래 그래프의 전체 가중치 - 최대 신장트리의 가중치로 답을 구함
 int main() {
 
 	int n, m, u, v, w, ans = 0;
@@ -64,7 +61,7 @@ int main() {
 
 	sort(graph.begin(), graph.end());
 
-	//UnionFind를, 크루스칼 알고리즘을 사용한 최대신장 트리 구하기
+
 	for (Edge e : graph) {
 		if (mst.size() == n + 1) break;
 		if (uf.find(e.u) == uf.find(e.v)) continue;
