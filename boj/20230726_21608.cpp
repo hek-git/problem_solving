@@ -107,7 +107,7 @@ int main() {
 		}
 	}
 
-	// point 초기화
+	// point 초기?��
 	point[0] = 0;
 	point[1] = 1;
 	point[2] = 10;
