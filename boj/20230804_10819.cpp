@@ -8,7 +8,7 @@ int N, num, ans;
 vector<int> v;
 
 int f(vector<int> v) {
-    int n;
+    int n = 0;
     for (int i = 0; i < v.size() - 1; i++) {
         n += abs(v[i] - v[i+1]);
     }
