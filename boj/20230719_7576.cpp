@@ -4,24 +4,24 @@
 
 using namespace std;
 
-// M, Nì€ ë†ìž¥ í¬ê¸°, farmì€ ë†ìž¥ì˜ ìƒíƒœë¥¼ ë‚˜íƒ€ë‚´ëŠ” ë°°ì—´, visitedëŠ” ë°©ë¬¸ ì—¬ë¶€ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ë°°ì—´
-// x_pos, y_posëŠ” ë‹¤ìŒ ë°©ë¬¸í•  ìœ„ì¹˜ì˜ ë°©í–¥ì„ ìˆœì„œëŒ€ë¡œ ì„ ì–¸í•œ ë°°ì—´ë¡œ ìœ„, ì˜¤ë¥¸ìª½, ì•„ëž˜, ì™¼ìª½ ìˆœì„œ
-// bfsë¥¼ ìœ„í•œ queue ì„ ì–¸
+// M, NÀº ³óÀå Å©±â, farmÀº ³óÀåÀÇ »óÅÂ¸¦ ³ªÅ¸³»´Â ¹è¿­, visited´Â ¹æ¹® ¿©ºÎ¸¦ ³ªÅ¸³»´Â ¹è¿­
+// x_pos, y_pos´Â ´ÙÀ½ ¹æ¹®ÇÒ À§Ä¡ÀÇ ¹æÇâÀ» ¼ø¼­´ë·Î ¼±¾ðÇÑ ¹è¿­·Î À§, ¿À¸¥ÂÊ, ¾Æ·¡, ¿ÞÂÊ ¼ø¼­
+// bfs¸¦ À§ÇÑ queue ¼±¾ð
 int M, N, ans, farm[1002][1002], visited[1002][1002], x_pos[4] = { 0, 1, 0, -1 }, y_pos[4] = {-1, 0, 1, 0};
 queue<pair<int, int>> q;
 
 void bfs() {
 
-	// qê°€ ë¹„ì–´ìžˆì§€ ì•Šì„ ë•Œ ê¹Œì§€
+	// q°¡ ºñ¾îÀÖÁö ¾ÊÀ» ¶§ ±îÁö
 	while (!q.empty()) {
 		
-		//queueì˜ ê°€ìž¥ ì•ž ì›ì†Œ ë°˜í™˜(ê¸°ì¤€ì  ì„¤ì •)
+		//queueÀÇ °¡Àå ¾Õ ¿ø¼Ò ¹ÝÈ¯(±âÁØÁ¡ ¼³Á¤)
 		pair<int, int> p;
 		p = q.front();
 		q.pop();
 
-		// ìœ„, ì˜¤ë¥¸ìª½, ì•„ëž˜, ì™¼ìª½ ëª¨ë“  ë°©í–¥ì„ ìˆœíšŒí•˜ë©° ê°€ì§€ ì•Šì€ ê³³ì´ë©´ ë°©ë¬¸í•˜ê³ 
-		// ë°©ë¬¸í–ˆë˜ ê³³ì´ë¼ë©´ í˜„ìž¬ ìµëŠ” ì†ë„ì™€ ê¸°ì¡´ì— ìµëŠ” ì†ë„ ì¤‘ ë” ë¹ ë¥¸ ê°’ì„ ì·¨í•¨
+		// À§, ¿À¸¥ÂÊ, ¾Æ·¡, ¿ÞÂÊ ¸ðµç ¹æÇâÀ» ¼øÈ¸ÇÏ¸ç °¡Áö ¾ÊÀº °÷ÀÌ¸é ¹æ¹®ÇÏ°í
+		// ¹æ¹®Çß´ø °÷ÀÌ¶ó¸é ÇöÀç ÀÍ´Â ¼Óµµ¿Í ±âÁ¸¿¡ ÀÍ´Â ¼Óµµ Áß ´õ ºü¸¥ °ªÀ» ÃëÇÔ
 		for (int i = 0; i < 4; i++) {
 
 			int next_y = p.first + y_pos[i];
@@ -42,12 +42,12 @@ void bfs() {
 
 int main() {
 
-	// ì´ˆê¸° ì„¸íŒ…ì„ ëª¨ë‘ 1ë¡œí•˜ê³ (í…Œë‘ë¦¬ ë¶€ë¶„ì„ 1ë¡œ ì±„ì›Œ bfsì—ì„œ ë°©ë¬¸ì„ ì•ˆí•˜ê¸° ìœ„í•¨)
+	// ÃÊ±â ¼¼ÆÃÀ» ¸ðµÎ 1·ÎÇÏ°í(Å×µÎ¸® ºÎºÐÀ» 1·Î Ã¤¿ö bfs¿¡¼­ ¹æ¹®À» ¾ÈÇÏ±â À§ÇÔ)
 
 	memset(farm, 1, sizeof(farm));
 	cin >> M >> N;
 
-	// ìž…ë ¥, 1ì¸ ìœ„ì¹˜ì—ì„œ í† ë§ˆí† ê°€ ìµê¸° ì‹œìž‘í•˜ë¯€ë¡œ íì— ë°”ë¡œ ì‚½ìž… ë° ë°©ë¬¸ ì—¬ë¶€ ìµœì‹ í™”
+	// ÀÔ·Â, 1ÀÎ À§Ä¡¿¡¼­ Åä¸¶Åä°¡ ÀÍ±â ½ÃÀÛÇÏ¹Ç·Î Å¥¿¡ ¹Ù·Î »ðÀÔ ¹× ¹æ¹® ¿©ºÎ ÃÖ½ÅÈ­
 	for (int i = 1; i <= N; i++) {
 		for (int j = 1; j <= M; j++) {
 			cin >> farm[i][j];
@@ -60,7 +60,7 @@ int main() {
 
 	bfs();
 
-	//ë†ìž¥ ë‚´ì— ê°€ìž¥ í° ê°’ì„ êµ¬í•˜ê³  0ì´ í•˜ë‚˜ë¼ë„ ìžˆìœ¼ë©´ í† ë§ˆí† ê°€ ëª¨ë‘ ìµì§€ ì•ŠëŠ” ë†ìž¥ êµ¬ì¡°ì´ë¯€ë¡œ -1 ì¶œë ¥í•˜ê³  ì¢…ë£Œ
+	//³óÀå ³»¿¡ °¡Àå Å« °ªÀ» ±¸ÇÏ°í 0ÀÌ ÇÏ³ª¶óµµ ÀÖÀ¸¸é Åä¸¶Åä°¡ ¸ðµÎ ÀÍÁö ¾Ê´Â ³óÀå ±¸Á¶ÀÌ¹Ç·Î -1 Ãâ·ÂÇÏ°í Á¾·á
 	for (int i = 1; i <= N; i++) {
 		for (int j = 1; j <= M; j++) {
 			if (ans < farm[i][j]) ans = farm[i][j];
