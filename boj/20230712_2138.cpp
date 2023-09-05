@@ -3,10 +3,9 @@
 
 using namespace std;
 
-int N;
+int N, ans;
 
-int solve(string S, string T, int init) {
-    int ans = init;
+int solve(string S, string T) {
 
     for (int i = 1; i < N; i++) {
         if (i != N - 1) {
@@ -37,13 +36,14 @@ int main() {
     cin >> N >> S >> T;
 
     //첫번째 스위치를 안누르고 시작하는 경우
-    a = solve(S, T, 0);
+    a = solve(S, T);
 
     //첫번째 스위치를 누르고 시작하는 경우
+    ans = 1;
     S[0] = S[0] == '0' ? '1' : '0';
     S[1] = S[1] == '0' ? '1' : '0';
-    b = solve(S, T, 1);
-
+    b = solve(S, T);
+    cout << a << " " << b << '\n';
     if (a == -1 && b == -1)
         cout << -1;
     else if (a == -1 || b == -1)

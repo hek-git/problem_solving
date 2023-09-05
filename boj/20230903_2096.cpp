@@ -3,42 +3,26 @@
 
 using namespace std;
 
-int N, dp[100001][3];
+int N, max_dp[3], min_dp[3], input[3];
 
-int maxPoint() {
+void maxPoint(int* point) {
 
-    for (int i = 2; i <= N; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (j == 0) dp[i][j] = max(dp[i - 1][j], dp[i - 1][j + 1]) + dp[i][j];
-            else if (j == 1) dp[i][j] = max({ dp[i - 1][j - 1], dp[i - 1][j], dp[i - 1][j + 1] }) + dp[i][j];
-            else dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - 1]) + dp[i][j];
-        }
-    }
-    return max({ dp[N][0], dp[N][1], dp[N][2] });
+    int cpy_dp[3] = { max_dp[0], max_dp[1], max_dp[2] };
+    max_dp[0] = max(cpy_dp[0], cpy_dp[1]) + point[0];
+    max_dp[1] = max({ cpy_dp[0], cpy_dp[1], cpy_dp[2] }) + point[1];
+    max_dp[2] = max(cpy_dp[1], cpy_dp[2]) + point[2];
+
 }
 
-int minPoint() {
+void minPoint(int* point) {
 
-    for (int i = 2; i <= N; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (j == 0) dp[i][j] = min(dp[i - 1][j], dp[i - 1][j + 1]) + dp[i][j];
-            else if (j == 1) dp[i][j] = min({ dp[i - 1][j - 1], dp[i - 1][j], dp[i - 1][j + 1] }) + dp[i][j];
-            else dp[i][j] = min(dp[i - 1][j], dp[i - 1][j - 1]) + dp[i][j];
-        }
-    }
-    return min({ dp[N][0], dp[N][1], dp[N][2] });
+    int cpy_dp[3] = { min_dp[0], min_dp[1], min_dp[2] };
+    min_dp[0] = min(cpy_dp[0], cpy_dp[1]) + point[0];
+    min_dp[1] = min({ cpy_dp[0], cpy_dp[1], cpy_dp[2] }) + point[1];
+    min_dp[2] = min(cpy_dp[1], cpy_dp[2]) + point[2];
+
 }
 
-void initPoint() {
-
-    for (int i = N; i > 0; i--) {
-        for (int j = 0; j < 3; j++) {
-            if (j == 0) dp[i][j] -= max(dp[i - 1][j], dp[i - 1][j + 1]);
-            else if (j == 1) dp[i][j] -= max({ dp[i - 1][j - 1], dp[i - 1][j], dp[i - 1][j + 1] });
-            else dp[i][j] -= max(dp[i - 1][j], dp[i - 1][j - 1]);
-        }
-    }
-}
 
 int main() {
 
@@ -49,11 +33,19 @@ int main() {
     cin >> N;
     for (int i = 1; i <= N; i++) {
         for (int j = 0; j < 3; j++) {
-            cin >> dp[i][j];
+            cin >> input[j];
+        }
+        if (i == 1) {
+            min_dp[0] = max_dp[0] = input[0];
+            min_dp[1] = max_dp[1] = input[1];
+            min_dp[2] = max_dp[2] = input[2];
+        }
+        else {
+            maxPoint(input);
+            minPoint(input);
         }
     }
 
-    cout << maxPoint() << " ";
-    initPoint();
-    cout << minPoint();
+    cout << max({ max_dp[0], max_dp[1], max_dp[2] }) << " " << min({ min_dp[0], min_dp[1], min_dp[2] });
+
 }
