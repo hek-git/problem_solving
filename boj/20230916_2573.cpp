@@ -22,6 +22,18 @@ void initVisited() {
     }
 }
 
+void dfs(pair<int, int> source){
+    visited[source.first][source.second] = 1;
+    for(int i = 0; i < 4; i++){
+        int nextX = source.second + dx[i];
+        int nextY = source.first + dy[i];
+        if(nextY >= N || nextY < 0 || nextX >= M || nextX < 0 || map[nextY][nextX] == 0) continue;
+        if(!visited[nextY][nextX]){
+            dfs(make_pair(nextY, nextX));
+        }
+    }
+}
+
 void bfs(pair<int, int> source) {
     queue<pair<int, int>> q;
     q.push(source);
@@ -72,7 +84,8 @@ int main() {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
                 if (!visited[i][j] && map[i][j]) {
-                    bfs(make_pair(i, j));
+                    //bfs(make_pair(i, j));
+                    dfs(make_pair(i, j));
                     tmp++;
                 }
             }
