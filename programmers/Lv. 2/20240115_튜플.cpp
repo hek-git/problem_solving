@@ -1,67 +1,55 @@
 #include <string>
 #include <vector>
-#include <queue>
+#include <algorithm>
 #include <iostream>
 
 using namespace std;
 
-string lower_case(string& s){
-    int diff = 'A' - 'a';
+int list[100001];
+
+bool cmp(vector<int>& a, vector<int>& b){ return a.size() < b.size(); }
+
+vector<int> split(string s, char delim){
+    vector<int> ret;
+    s.push_back(delim);
+    string tmp_s;
     for(int i = 0; i < s.size(); i++){
-        if(s[i] >= 'A' && s[i] <= 'Z') s[i] -= diff;
+        if(s[i] == delim){
+            int n = stoi(tmp_s);
+            ret.push_back(n);
+            tmp_s.clear();
+        } else tmp_s.push_back(s[i]); 
     }
-    return s;
+    return ret;
 }
 
-void p(queue<string>& cache){
-    queue<string> q = cache;
-    while(!q.empty()){
-        cout << q.front()<< " ";
-        q.pop();
-    }
-    cout << endl;
-}
+vector<int> solution(string s) {
+    vector<int> answer;
+    vector<vector<int>> tuple;
+    string tmp_s;
+    int flag = 0;
 
-bool caching(queue<string>& cache, string& s){
-    bool hit = false;
-    int cache_size = cache.size();
-    if(cache.empty()) return hit;
-    for(int i = 0; i < cache_size; i++){
-        string tmp = cache.front();
-        if(!tmp.compare(s)){
-            hit = true;
-            cache.pop();
-        } else{
-            cache.push(tmp);
-            cache.pop();
+    for(int i = 1; i < s.size()-1; i++){
+        if(s[i] == '{'){
+            flag = 1;
+        } else if(s[i] == '}'){
+            tuple.push_back(split(tmp_s, ','));
+            tmp_s.clear();
+            flag = 0;
+        } else if(flag){
+            tmp_s.push_back(s[i]);
         }
     }
-    if(hit) cache.push(s);
-    // cout << s <<"! ";
-    // p(cache);
-    return hit;
-}
+    sort(tuple.begin(), tuple.end(), cmp);
 
-void cache_change(queue<string>& cache, string& s){
-    cache.pop();
-    cache.push(s);
-    // p(cache);
-}
-
-int solution(int cacheSize, vector<string> cities) {
-    int answer = 0;
-    queue<string> cache;
-
-    for(int i = 0; i < cities.size(); i++){
-        string city = lower_case(cities[i]);
-        
-        if(caching(cache, city)) answer++;
-        else{
-            answer += 5;
-            if(cache.size() < cacheSize) cache.push(city);
-            else if(cacheSize) cache_change(cache, city);
-        }       
-        // p(cache);
+    for(int i = 0; i < tuple.size(); i++){
+        for(int j = 0; j < tuple[i].size(); j++){
+            if(!list[tuple[i][j]]){
+                list[tuple[i][j]] = 1;
+                answer.push_back(tuple[i][j]);
+            }
+        }
     }
+    
     return answer;
 }
