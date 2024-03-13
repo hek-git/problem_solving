@@ -1,24 +1,25 @@
 #include <algorithm>
 #include <iostream>
+#include <string>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
-int dfs(vector<int>& sticker, int s, int i, int num) {
-    int next1 = (i + 2) % sticker.size();
-    int next2 = (i + 3) % sticker.size();
+int check[100001];
 
-    if (next1 == s || next2 == s + 1 || next1 == ((s + sticker.size() - 1) % sticker.size())) return num;
-
-    if (next2 == ((s + sticker.size() - 1) % sticker.size()))
-        return dfs(sticker, s, next1, num + sticker[i + 2]);
-
-    return max(dfs(sticker, s, next1, num + sticker[i + 2]),
-               dfs(sticker, s, next2, num + sticker[i + 3]));
-}
-
-int solution(vector<int> sticker) {
-    if (sticker.size() < 3) return (max({sticker[0], sticker[1], sticker[2]}));
-    return max({dfs(sticker, 0, 0, sticker[0]), dfs(sticker, 1, 1,
-    sticker[1]), dfs(sticker, 2, 2, sticker[2])});
+int solution(vector<int> A, vector<int> B) {
+    int answer = 0;
+    priority_queue<int> pq;
+    sort(A.begin(), A.end());
+    for(int i = 0; i < B.size(); i++)
+        pq.push(-B[i]);
+    
+    for (int i = 0; i < A.size(); i++) {
+        while(!pq.empty() && A[i] >= -pq.top()) pq.pop();
+        if(pq.empty()) break;
+        answer++;
+        pq.pop();
+    }
+    return answer;
 }
